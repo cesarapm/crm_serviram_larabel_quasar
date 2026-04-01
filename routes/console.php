@@ -44,6 +44,7 @@ Artisan::command('users:import-firebase {file=storage/app/imports/users.json} {-
     Role::firstOrCreate(['name' => 'asesor']);
 
     $created = 0;
+    $updated = 0;
     $skipped = 0;
 
     $resolveUniqueEmail = function (string $requestedEmail, string $nickname, ?string $firebaseId, ?int $ignoreUserId = null): string {
