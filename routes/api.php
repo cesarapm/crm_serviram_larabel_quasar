@@ -48,25 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/contacts/{contact}/name', [ContactController::class, 'updateName'])
         ->middleware('role:admin|asesor');
 
-    // Estado de cuota mensual de mensajes
-});
-
-// ─── Rutas exclusivas de Admin ───────────────────────────────────────────────
-Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
-    // Gestión de asesores
-    Route::get('/asesores', [UserController::class, 'index']);
-    Route::get('/asesores/limits', [UserController::class, 'limits']);
-    Route::post('/asesores', [UserController::class, 'store']);
-    Route::put('/asesores/{user}', [UserController::class, 'update']);
-    Route::patch('/asesores/{user}/permisos', [UserController::class, 'updatePermisos']);
-    Route::patch('/asesores/{user}/folios', [UserController::class, 'updateFolios']);
-    Route::delete('/asesores/{user}', [UserController::class, 'destroy']);
-    // Gestión de personal (formulario simple, permisos en false por defecto)
-    Route::get('/personal', [PersonalController::class, 'index']);
-    Route::post('/personal', [PersonalController::class, 'store']);
-    Route::put('/personal/{user}', [PersonalController::class, 'update']);
-    Route::delete('/personal/{user}', [PersonalController::class, 'destroy']);
-    // Gestión de productos
+    
+         // Gestión de productos
     Route::get('/productos', [ProductController::class, 'index']);
     Route::post('/productos', [ProductController::class, 'store']);
     Route::get('/productos/{product}', [ProductController::class, 'show']);
@@ -154,7 +137,24 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::delete('/racks/{rack}', [RackController::class, 'destroy']);
     Route::get('/racks-estadisticas', [RackController::class, 'estadisticas']);
     Route::get('/racks/{rack}/items', [RackController::class, 'itemsEnRack']);
+});
 
+// ─── Rutas exclusivas de Admin ───────────────────────────────────────────────
+Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
+    // Gestión de asesores
+    Route::get('/asesores', [UserController::class, 'index']);
+    Route::get('/asesores/limits', [UserController::class, 'limits']);
+    Route::post('/asesores', [UserController::class, 'store']);
+    Route::put('/asesores/{user}', [UserController::class, 'update']);
+    Route::patch('/asesores/{user}/permisos', [UserController::class, 'updatePermisos']);
+    Route::patch('/asesores/{user}/folios', [UserController::class, 'updateFolios']);
+    Route::delete('/asesores/{user}', [UserController::class, 'destroy']);
+    // Gestión de personal (formulario simple, permisos en false por defecto)
+    Route::get('/personal', [PersonalController::class, 'index']);
+    Route::post('/personal', [PersonalController::class, 'store']);
+    Route::put('/personal/{user}', [PersonalController::class, 'update']);
+    Route::delete('/personal/{user}', [PersonalController::class, 'destroy']);
+   
         // ─── Reportes y KPIs Operativos ──────────────────────────────────────────────
         Route::prefix('reportes')->group(function () {
             Route::get('/servicios-diarios', [\App\Http\Controllers\ReporteOperativoController::class, 'serviciosDiarios']);
@@ -183,3 +183,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::put('/business-context/{businessContext}', [BusinessContextController::class, 'update']);
     Route::delete('/business-context/{businessContext}', [BusinessContextController::class, 'destroy']);
 });
+
+
+
+
