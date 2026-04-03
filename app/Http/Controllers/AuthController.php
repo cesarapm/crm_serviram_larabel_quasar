@@ -29,6 +29,8 @@ class AuthController extends Controller
 
         // FacadesLog::info('Login attempt', ['login' => $identifier]);
 
+        // Buscar al usuario por nickname o email
+
         $user = User::query()
             ->where('nickname', $identifier)
             ->orWhere('email', $identifier)
