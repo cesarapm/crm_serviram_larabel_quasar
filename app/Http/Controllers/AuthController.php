@@ -27,7 +27,7 @@ class AuthController extends Controller
             ]);
         }
 
-        FacadesLog::info('Login attempt', ['login' => $identifier]);
+        // FacadesLog::info('Login attempt', ['login' => $identifier]);
 
         $user = User::query()
             ->where('nickname', $identifier)
