@@ -41,4 +41,6 @@ return [
         'from'  => env('TWILIO_WHATSAPP_FROM'), // ej: whatsapp:+17854294558
     ],
 
+    // Clave simple para el buzon
+    'buzon_simple_key' => env('BUZON_SIMPLE_KEY', 'clave-secreta-demo'),
 ];

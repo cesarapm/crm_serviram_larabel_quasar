@@ -16,6 +16,7 @@ use App\Http\Controllers\GmServicioController;
 use App\Http\Controllers\RackController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TipoEquipoController;
+use App\Http\Controllers\BuzonServicioController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
@@ -117,6 +118,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/agenda/orden/{orden}', [AgendaController::class, 'byOrden']);
     Route::get('/agenda-alertas', [AgendaController::class, 'alertas']);
 
+    // ─── Buzón de Servicios ───────────────────────────────────────────────────
+    Route::get('/buzon/alertas', [BuzonServicioController::class, 'alertas']);
+    Route::get('/buzon', [BuzonServicioController::class, 'index']);
+    Route::post('/buzon', [BuzonServicioController::class, 'store']);
+    Route::get('/buzon/{buzon}', [BuzonServicioController::class, 'show']);
+    Route::put('/buzon/{buzon}', [BuzonServicioController::class, 'update']);
+    Route::delete('/buzon/{buzon}', [BuzonServicioController::class, 'destroy']);
+    Route::post('/buzon/{buzon}/agendar', [BuzonServicioController::class, 'agendar']);
+    Route::patch('/buzon/{buzon}/estatus', [BuzonServicioController::class, 'cambiarEstatus']);
+
     // Gestión de almacén
     Route::get('/items', [ItemController::class, 'index']);
     Route::post('/items', [ItemController::class, 'store']);
@@ -138,6 +149,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/racks-estadisticas', [RackController::class, 'estadisticas']);
     Route::get('/racks/{rack}/items', [RackController::class, 'itemsEnRack']);
     Route::get('/personal', [PersonalController::class, 'index']);
+
+    // ─── Reportes y KPIs Operativos ──────────────────────────────────────────────
+    Route::prefix('reportes')->group(function () {
+        Route::get('/servicios-diarios', [\App\Http\Controllers\ReporteOperativoController::class, 'serviciosDiarios']);
+        Route::get('/servicios-semanales', [\App\Http\Controllers\ReporteOperativoController::class, 'serviciosSemanales']);
+        Route::get('/servicios-mensuales', [\App\Http\Controllers\ReporteOperativoController::class, 'serviciosMensuales']);
+        Route::get('/cumplimiento-meta', [\App\Http\Controllers\ReporteOperativoController::class, 'cumplimientoMeta']);
+        Route::get('/cotizaciones-diarias', [\App\Http\Controllers\ReporteOperativoController::class, 'cotizacionesDiarias']);
+        Route::get('/cotizaciones-semanales', [\App\Http\Controllers\ReporteOperativoController::class, 'cotizacionesSemanales']);
+        Route::get('/cotizaciones-mensuales', [\App\Http\Controllers\ReporteOperativoController::class, 'cotizacionesMensuales']);
+    });
+ 
 });
 
 // ─── Rutas exclusivas de Admin ───────────────────────────────────────────────
@@ -155,26 +178,6 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::post('/personal', [PersonalController::class, 'store']);
     Route::put('/personal/{user}', [PersonalController::class, 'update']);
     Route::delete('/personal/{user}', [PersonalController::class, 'destroy']);
-   
-        // ─── Reportes y KPIs Operativos ──────────────────────────────────────────────
-        Route::prefix('reportes')->group(function () {
-            Route::get('/servicios-diarios', [\App\Http\Controllers\ReporteOperativoController::class, 'serviciosDiarios']);
-            Route::get('/facturacion-diaria', [\App\Http\Controllers\ReporteOperativoController::class, 'facturacionDiaria']);
-            Route::get('/servicios-por-tecnico', [\App\Http\Controllers\ReporteOperativoController::class, 'serviciosPorTecnico']);
-            Route::get('/tiempos-muertos', [\App\Http\Controllers\ReporteOperativoController::class, 'tiemposMuertos']);
-            Route::get('/facturacion-semanal', [\App\Http\Controllers\ReporteOperativoController::class, 'facturacionSemanal']);
-            Route::get('/nuevos-clientes', [\App\Http\Controllers\ReporteOperativoController::class, 'nuevosClientes']);
-            Route::get('/cotizaciones-semanales', [\App\Http\Controllers\ReporteOperativoController::class, 'cotizacionesSemanales']);
-            Route::get('/productividad-tecnico', [\App\Http\Controllers\ReporteOperativoController::class, 'productividadTecnico']);
-        });
-        Route::prefix('alertas')->group(function () {
-            // Endpoints de alertas automáticas (pendientes de implementar lógica)
-            // Route::get('/mantenimiento', [\App\Http\Controllers\ReporteOperativoController::class, 'alertasMantenimiento']);
-            // Route::get('/clientes-inactivos', [\App\Http\Controllers\ReporteOperativoController::class, 'alertasClientesInactivos']);
-            // Route::get('/fallas-repetitivas', [\App\Http\Controllers\ReporteOperativoController::class, 'alertasFallasRepetitivas']);
-            // Route::get('/cotizaciones-pendientes', [\App\Http\Controllers\ReporteOperativoController::class, 'alertasCotizacionesPendientes']);
-        });
-
 
     // Asignar / desasignar conversación
     Route::post('/assign', [UserController::class, 'assignConversation']);
@@ -184,6 +187,8 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::put('/business-context/{businessContext}', [BusinessContextController::class, 'update']);
     Route::delete('/business-context/{businessContext}', [BusinessContextController::class, 'destroy']);
 });
+
+Route::post('/buzonclave', [BuzonServicioController::class, 'store'])->middleware('simple.key');
 
 
 

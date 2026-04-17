@@ -26,6 +26,7 @@ class User extends Authenticatable
         'cotizacion',
         'admincalendario',
         'almacen',
+        'buzon',
     ];
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
