@@ -67,11 +67,11 @@ class WebhookController extends Controller
             $newQuotaSnapshot = $messageQuota->snapshot();
             $messageQuota->notifyIfChanged($newQuotaSnapshot);
 
-            Log::info('Mensaje guardado', [
-                'contact'      => $from,
-                'conversation' => $conversation->id,
-                'is_human'     => $conversation->is_human,
-            ]);
+            // Log::info('Mensaje guardado', [
+            //     'contact'      => $from,
+            //     'conversation' => $conversation->id,
+            //     'is_human'     => $conversation->is_human,
+            // ]);
         })->afterResponse();
 
         return response()->json([
@@ -97,7 +97,7 @@ class WebhookController extends Controller
         $conversationToken = trim((string) ($payload['conversation_id'] ?? ''));
 
         dispatch(function () use ($payload, $rawPayload) {
-            Log::info('Webhook outbound received', $rawPayload);
+            // Log::info('Webhook outbound received', $rawPayload);
 
             $messageQuota = app(MessageQuotaService::class);
             $quotaSnapshot = $messageQuota->snapshot();

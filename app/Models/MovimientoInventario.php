@@ -15,6 +15,10 @@ class MovimientoInventario extends Model
         'item_id',
         'user_id',
         'tipo_movimiento',
+        'fecha',
+        'responsable',
+        'motivo',
+        'referencia',
         'cantidad',
         'stock_anterior',
         'stock_nuevo',
@@ -28,19 +32,28 @@ class MovimientoInventario extends Model
         'cantidad' => 'integer',
         'stock_anterior' => 'integer',
         'stock_nuevo' => 'integer',
+        'fecha' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
-    // Tipos de movimiento
+    // Tipos de movimiento (soporte para valores antiguos y nuevos)
     public const TIPOS = [
+        // Valores antiguos (minúsculas)
         'entrada' => 'Entrada',
         'salida' => 'Salida', 
         'ajuste' => 'Ajuste',
         'transferencia' => 'Transferencia',
         'devolucion' => 'Devolución',
         'perdida' => 'Pérdida',
-        'inicial' => 'Stock Inicial'
+        'inicial' => 'Stock Inicial',
+        // Valores nuevos del frontend (capitalize)
+        'Entrada' => 'Entrada',
+        'Salida' => 'Salida',
+        'Préstamo' => 'Préstamo',
+        'Devolución' => 'Devolución',
+        'Uso en Servicio' => 'Uso en Servicio',
+        'Ajuste' => 'Ajuste'
     ];
 
     // Relaciones

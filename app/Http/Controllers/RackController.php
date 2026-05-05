@@ -45,7 +45,7 @@ class RackController extends Controller
 
         $rack = Rack::create($validated);
 
-        return response()->json($rack, 201);
+        return response()->json(['data' => $rack], 201);
     }
 
     public function show(Rack $rack): JsonResponse
@@ -72,7 +72,7 @@ class RackController extends Controller
             'updated_at' => $rack->updated_at
         ];
 
-        return response()->json($rackData);
+        return response()->json(['data' => $rackData]);
     }
 
     public function update(Request $request, Rack $rack): JsonResponse
@@ -84,7 +84,7 @@ class RackController extends Controller
 
         $rack->update($validated);
 
-        return response()->json($rack);
+        return response()->json(['data' => $rack]);
     }
 
     public function destroy(Rack $rack): JsonResponse

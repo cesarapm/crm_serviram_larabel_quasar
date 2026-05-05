@@ -9,6 +9,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\EncuestaServicioController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MovimientoInventarioController;
 use App\Http\Controllers\OrdenController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ProductController;
@@ -148,6 +149,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/racks/{rack}', [RackController::class, 'destroy']);
     Route::get('/racks-estadisticas', [RackController::class, 'estadisticas']);
     Route::get('/racks/{rack}/items', [RackController::class, 'itemsEnRack']);
+    
+    // Gestión de movimientos de inventario
+    Route::get('/almacen/movimientos', [MovimientoInventarioController::class, 'index']);
+    Route::post('/almacen/movimientos', [MovimientoInventarioController::class, 'store']);
+    
     Route::get('/personal', [PersonalController::class, 'index']);
 
     // ─── Reportes y KPIs Operativos ──────────────────────────────────────────────
